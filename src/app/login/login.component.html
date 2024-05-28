@@ -1,6 +1,6 @@
 <div class="wrap-login">
     <div class="container">
-        <form class="" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form class="" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
             <mat-card class="login-box">
                 <mat-card-header>
                     <img mat-card-avatar src="./assets/Tabit_2.jpg" alt="Logo">

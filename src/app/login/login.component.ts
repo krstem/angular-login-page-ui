@@ -25,7 +25,7 @@ import {loginRequestAction} from "../store/app.actions";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
 
   ],
   templateUrl: './login.component.html',
@@ -36,13 +36,13 @@ export class LoginComponent implements OnInit {
   logoUrl: string = '';
   unsubscribe = new Subject();
 
-  constructor(private formBuilder: FormBuilder, private imageLoader: ImageLoaderService, private _store:Store<any>, private _route:Router) {
+  constructor(private formBuilder: FormBuilder, private imageLoader: ImageLoaderService, private _store: Store<any>, private _route: Router) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
-    this._store.select("auth","isAuth").pipe(takeUntil(this.unsubscribe)).subscribe((data:any)=>{
-      if(data){
+    this._store.select("auth", "isAuth").pipe(takeUntil(this.unsubscribe)).subscribe((data: any) => {
+      if (data) {
         this._route.navigate(['/profile'])
       } else {
         this._route.navigate(['/'])
@@ -66,9 +66,6 @@ export class LoginComponent implements OnInit {
       console.log('Login form submitted', value);
       // add value in to store
       this._store.dispatch(loginRequestAction({payload: value}));
-
-    } else {
-      return;
     }
   }
 }

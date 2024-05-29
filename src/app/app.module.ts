@@ -12,6 +12,8 @@ import {HttpClientModule, provideHttpClient} from "@angular/common/http";
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import {AuthEffects, Effects} from "./store/app.effects";
+import {appReducer, metaReducers} from "./store/app.reducers";
 
 @NgModule({
   declarations: [
@@ -28,11 +30,11 @@ import { EffectsModule } from '@ngrx/effects';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(appReducer,{metaReducers}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot(Effects),
   ],
-  providers: [provideHttpClient()],
+  providers: [provideHttpClient(), AuthEffects],
   bootstrap: [AppComponent]
 })
 export class AppModule {

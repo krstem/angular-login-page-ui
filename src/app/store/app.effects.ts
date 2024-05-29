@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { EMPTY, catchError, exhaustMap, map, mergeMap, of, switchMap } from "rxjs";
-import { Store } from "@ngrx/store";
-import { Router } from "@angular/router";
+import {Injectable} from "@angular/core";
+import {Actions, createEffect, ofType} from "@ngrx/effects";
+import {catchError, EMPTY, map, mergeMap, of} from "rxjs";
+import {Store} from "@ngrx/store";
+import {Router} from "@angular/router";
 import {loginErrorAction, loginRequestAction, loginResponseAction, logout, resetState} from "./app.actions";
 import {AuthService} from "../service/auth.service";
 
@@ -31,7 +31,7 @@ export class AuthEffects {
         ofType(logout),
         mergeMap(()=>{
           this.store.dispatch(resetState());
-          this.route.navigate(['/auth']);
+          this.route.navigate(['/']);
           return EMPTY
         })
       ),
@@ -39,3 +39,7 @@ export class AuthEffects {
   );
 
 }
+
+export const Effects = [
+  AuthEffects
+]

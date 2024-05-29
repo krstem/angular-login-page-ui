@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import {delay, of} from 'rxjs';
 import {LoginRequestModel} from "../model/auth.model";
 
 const LOGIN_DATA = {
@@ -23,6 +23,6 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   getLoginData(payload:LoginRequestModel){
-    return of(LOGIN_DATA);
+    return of(LOGIN_DATA).pipe(delay(1000)); // only for simulation that something is loaded
   }
 }

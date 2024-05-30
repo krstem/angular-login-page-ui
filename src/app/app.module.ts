@@ -1,4 +1,4 @@
-import {NgModule, isDevMode} from '@angular/core';
+import {importProvidersFrom, isDevMode, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -9,15 +9,15 @@ import {MatCardModule} from '@angular/material/card';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule, provideHttpClient} from "@angular/common/http";
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EffectsModule } from '@ngrx/effects';
+import {provideState, provideStore, StoreModule} from '@ngrx/store';
+import {provideStoreDevtools, StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {EffectsModule, provideEffects} from '@ngrx/effects';
 import {AuthEffects, Effects} from "./store/app.effects";
 import {appReducer, metaReducers} from "./store/app.reducers";
 
 @NgModule({
   declarations: [
-    AppComponent
+
   ],
   imports: [
     BrowserModule,
@@ -30,12 +30,19 @@ import {appReducer, metaReducers} from "./store/app.reducers";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot(appReducer,{metaReducers}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreModule.forRoot(appReducer, {metaReducers}),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: isDevMode()}),
     EffectsModule.forRoot(Effects),
   ],
-  providers: [provideHttpClient(), AuthEffects],
-  bootstrap: [AppComponent]
+  providers: [
+    provideHttpClient(),
+    AuthEffects,
+    provideState("login", appReducer),
+    provideStore(appReducer, {metaReducers}),
+    provideEffects(Effects),
+    provideStoreDevtools({maxAge: 25, logOnly: isDevMode()}),
+  ],
+  bootstrap: []
 })
 export class AppModule {
 }

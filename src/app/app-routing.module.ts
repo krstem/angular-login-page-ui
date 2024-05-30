@@ -1,16 +1,20 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import {ProfileComponent} from "./profile/profile.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    loadComponent: () => import('./login/login.component').then(m => m.LoginComponent).catch(ex => {
+      console.log(ex.toString(), 'EX LoginComponent');
+      return ex;
+    })
   },
   {
     path: 'profile',
-    component: ProfileComponent,
+    loadComponent: () => import('./profile/profile.component').then(m => m.ProfileComponent).catch(ex => {
+      console.log(ex.toString(), 'EX ProfileComponent');
+      return ex;
+    })
   },
 ];
 
